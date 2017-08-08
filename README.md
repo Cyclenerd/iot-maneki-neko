@@ -46,7 +46,7 @@ With `mqtt-subscribe.pl` you can see all commands of all IoT cats.
 * The computer connects to the MQTT broker `iot.eclipse.org`.
 	* MQTT is explained in [Wikipedia](https://en.wikipedia.org/wiki/MQTT).
 * The MQTT topic `winkekatze/YOUR-CAT-NAME/command` is subscribed.
-* When the text `wave` appears, the card starts to wave.
+* When the text `wave` appears, the cat starts to wave.
 
 ## Help 👍
 

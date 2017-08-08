@@ -17,9 +17,9 @@
 	var cat_name = "iotkatze";
 
 	// MQTT over WebSockets
-	// This can stay ws://iot.eclipse.org:80/ws for the global clowder ;)
+	// This can stay wss://iot.eclipse.org:443/ws for the global clowder ;)
 	var mqtt_ws_server = "iot.eclipse.org";
-	var mqtt_ws_port   = 80; // unencrypted
+	var mqtt_ws_port   = 443; // secured
 	var mqtt_ws_path   = "/ws";
 	
 	// MQTT topic
@@ -47,7 +47,10 @@
 	
 	// Connect the client
 	console.log("Connecting to MQTT server " + mqtt_ws_server);
-	client.connect({onSuccess:onConnect});
+	client.connect({
+		useSSL: true,
+		onSuccess:onConnect
+	});
 	
 	// Called when the client connects
 	function onConnect() {

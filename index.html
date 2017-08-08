@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IoT Maneki-Neko</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"/>
+<link rel="apple-touch-icon" href="https://www.nkn-it.de/iot-maneki-neko/icon.png"/>
+<link rel="icon" type="image/png" href="https://www.nkn-it.de/iot-maneki-neko/icon.png"/>
 <style>html { text-align: center; }</style>
 </head>
 <body>
@@ -30,7 +32,7 @@
 	
 	// Change title
 	document.getElementById("cat_name").textContent = "🐱 " + cat_name;
-	document.title = "🐱 [" + cat_name + "] IoT Maneki-Neko";
+	document.title = "[" + cat_name + "] IoT Maneki-Neko";
 	
 	// Create a new Client object with your broker's hostname, port and your own clientId
 	// http://www.eclipse.org/paho/files/jsdoc/Paho.MQTT.Client.html
@@ -65,7 +67,7 @@
 	function onConnectionLost(responseObject) {
 		if (responseObject.errorCode !== 0) {
 			console.log("MQTT connection lost: " + responseObject.errorMessage);
-			document.getElementById("button").textContent = "Connection lost";
+			document.getElementById("button").textContent = "Connection lost. Please reload this site.";
 		}
 	}
 	

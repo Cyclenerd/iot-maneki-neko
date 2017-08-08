@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IoT Maneki-Neko</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+<style>html { text-align: center; }</style>
+</head>
+<body>
+<h1 id="cat_name"></h1><br>
+<button id="button" onClick="clickButton();">Connecting ...</button>
+<script>
+	
+	// Cat Name (CHANGE THIS!!!!11)
+	var cat_name = "iotkatze";
+
+	// MQTT over WebSockets
+	// This can stay ws://iot.eclipse.org:80/ws for the global clowder ;)
+	var mqtt_ws_server = "iot.eclipse.org";
+	var mqtt_ws_port   = 80; // unencrypted
+	var mqtt_ws_path   = "/ws";
+	
+	// MQTT topic
+	var topic = "winkekatze/" +  cat_name + "/command";
+	
+	// Remember status
+	var waving = false;
+	
+	// Change title
+	document.getElementById("cat_name").textContent = "🐱 " + cat_name;
+	document.title = "🐱 [" + cat_name + "] IoT Maneki-Neko";
+	
+	// Create a new Client object with your broker's hostname, port and your own clientId
+	// http://www.eclipse.org/paho/files/jsdoc/Paho.MQTT.Client.html
+	client = new Paho.MQTT.Client(
+		mqtt_ws_server, // host
+		Number(mqtt_ws_port), // port
+		mqtt_ws_path, // path
+		"iot-maneki-neko-web_" + parseInt(Math.random() * 100, 10) //clientId
+	);
+	
+	// Set callback handlers
+	client.onConnectionLost = onConnectionLost;
+	client.onMessageArrived = onMessageArrived;
+	
+	// Connect the client
+	console.log("Connecting to MQTT server " + mqtt_ws_server);
+	client.connect({onSuccess:onConnect});
+	
+	// Called when the client connects
+	function onConnect() {
+		// Once a connection has been made, make a subscription and send a message.
+		console.log("MQTT connected");
+		document.getElementById("button").textContent = "Connected";
+		client.subscribe(topic);
+		updateButton();
+	}
+	
+	// Called when the client loses its connection
+	function onConnectionLost(responseObject) {
+		if (responseObject.errorCode !== 0) {
+			console.log("MQTT connection lost: " + responseObject.errorMessage);
+			document.getElementById("button").textContent = "Connection lost";
+		}
+	}
+	
+	// Called when a message arrives
+	function onMessageArrived(message) {
+		console.log("Message arrived: " + message.payloadString);
+		// Save new status
+		if (message.payloadString == "wave") {
+			waving = true;
+		} else {
+			waving = false
+		}
+		updateButton();
+	}
+	
+	// Creates a new Messaging.Message Object and sends it to the MQTT Broker
+	// http://www.eclipse.org/paho/files/jsdoc/Paho.MQTT.Message.html
+	function publish(command) {
+		if (command != "wave") {
+			command = ""
+		}
+		console.log("Publish command: " + command);
+		message = new Paho.MQTT.Message(command);
+		message.retained = true; // deliver to both current and future subscriptions
+		message.destinationName = topic;
+		client.send(message);
+	}
+	
+	// Called when the button is pressed
+	function clickButton() {
+		console.log("Button was pressed");
+		document.getElementById("button").textContent = "Updating ...";
+		if (waving) {
+			publish(""); // stop waving
+		} else {
+			publish("wave"); // start waving
+		}
+		// Update button text with onMessageArrived function
+	}
+	
+	// Update the button text according to the status (waving)
+	function updateButton() {
+		console.log("Update button text");
+		if (waving) {
+			document.getElementById("button").textContent = "✖ Stop waving";
+		} else {
+			document.getElementById("button").textContent = "▶ Start waving";
+		}
+	}
+	
+</script>
+<hr>
+<p><a href="https://github.com/Cyclenerd/iot-maneki-neko">Build your own IoT Maneki-Neko</a></p>
+</body>
+</html>

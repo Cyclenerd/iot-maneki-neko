@@ -1,6 +1,6 @@
 # IoT Maneki-Neko
 
-With `iot-maneki-neko.ino` and an **ESP8266** you can make a Maneki-Neko (Beckoning Cat, Luck Cat, Winkekatze) to an IoT Maneki-Neko.
+With `iot-maneki-neko.ino` and an **ESP8266** (like the NodeMCU Lua Lolin V3 Module) you can make a Maneki-Neko (Beckoning Cat, Luck Cat, Winkekatze) to an IoT Maneki-Neko.
 Let's make a thing to an thing with internet or internet of things.
 Inspired by the Chaos Communication Camp Project [Winkekatze](https://events.ccc.de/camp/2015/wiki/Projects:Winkekatze).
 

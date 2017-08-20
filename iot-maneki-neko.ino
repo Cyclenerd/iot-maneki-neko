@@ -37,6 +37,7 @@ const unsigned int report_every_min = 5; // 5 minutes
    End Configuration Section
  ***************************************************************************************/
 
+
 WiFiClient espClient;
 PubSubClient client(espClient);
 
@@ -44,26 +45,57 @@ unsigned long time_msec;
 unsigned long last_report_msec;
 const unsigned int report_every_msec = report_every_min * 60 * 1000; // min to msec
 
-// The setup function runs once when you press reset or power the board
-void setup() {
-  Serial.begin(115200);
-  delay(1000); // wait 1 seconds
 
-  // Initialize digital pins an output.
-  pinMode(D0, OUTPUT);
-  pinMode(D1, OUTPUT);
-  pinMode(D2, OUTPUT);
-  pinMode(D3, OUTPUT);
-  pinMode(D4, OUTPUT);
+/***************************************************************************************
+ * Helpers 
+ ***************************************************************************************/
+ 
+// The test_led function tests the connected LEDs on D0 and D1
+void test_led() {
+  // test D0, D1
+  digitalWrite(D0, HIGH);
+  digitalWrite(D1, HIGH);
+  delay(5000); // wait 5 seconds
+  digitalWrite(D0, LOW);
+  digitalWrite(D1, LOW);
+}
 
-  test_led();
+// The print_logo functions prints a nice ascii cat
+void print_logo() {
+  Serial.println();
+  Serial.println();
+  Serial.println("      /\\_/\\  ");
+  Serial.println(" IoT (o . o) Maneki-Neko");
+  Serial.println("      > ^ <  ");
+  Serial.println();
+  Serial.println();
+}
 
-  print_logo();
+// The uptime function keeps a uptime counter that will survive the 50 day timer rollover
+// https://www.arduino.cc/en/Reference/Millis
+unsigned long uptime_day       = 0;
+unsigned int  uptime_hour      = 0;
+unsigned int  uptime_min       = 0;
+unsigned int  uptime_sec       = 0;
+unsigned int  uptime_rollover  = 0;
+bool          uptime_high_msec = false;
+void uptime() {
+  // Making Note of an expected rollover
+  if (millis() >= 3000000000) {
+    uptime_high_msec = true;
+  }
 
-  Serial.print("My name is ");
-  Serial.println(cat_name);
+  // Making note of actual rollover
+  if (millis() <= 100000 && uptime_high_msec) {
+    uptime_rollover++;
+    uptime_high_msec = false;
+  }
 
-  connect();
+  unsigned long time_sec = millis() / 1000;
+  uptime_sec  = time_sec % 60;
+  uptime_min  = (time_sec / 60) % 60;
+  uptime_hour = (time_sec / (60 * 60)) % 24;
+  uptime_day  = (uptime_rollover * 50) + (time_sec / (60 * 60 * 24)); // First portion takes care of a rollover [around 50 days]
 }
 
 // The connect function makes a connection with the WiFi and the MQTT server
@@ -126,38 +158,6 @@ void connect() {
   }
 }
 
-// The meow function sends a meow
-void meow() {
-  client.publish( ("winkekatze/" +  String(cat_name) + "/status").c_str(), "Meow!");
-}
-
-// The uptime function keeps a uptime counter that will survive the 50 day timer rollover
-// https://www.arduino.cc/en/Reference/Millis
-unsigned long uptime_day       = 0;
-unsigned int  uptime_hour      = 0;
-unsigned int  uptime_min       = 0;
-unsigned int  uptime_sec       = 0;
-unsigned int  uptime_rollover  = 0;
-bool          uptime_high_msec = false;
-void uptime() {
-  // Making Note of an expected rollover
-  if (millis() >= 3000000000) {
-    uptime_high_msec = true;
-  }
-
-  // Making note of actual rollover
-  if (millis() <= 100000 && uptime_high_msec) {
-    uptime_rollover++;
-    uptime_high_msec = false;
-  }
-
-  unsigned long time_sec = millis() / 1000;
-  uptime_sec  = time_sec % 60;
-  uptime_min  = (time_sec / 60) % 60;
-  uptime_hour = (time_sec / (60 * 60)) % 24;
-  uptime_day  = (uptime_rollover * 50) + (time_sec / (60 * 60 * 24)); // First portion takes care of a rollover [around 50 days]
-}
-
 // The callback funtions is called when an MQTT message (subscription) is received
 void callback(char* topic, byte* payload, unsigned int length) {
   if ( "winkekatze/" +  String(cat_name) + "/command" ) {
@@ -184,28 +184,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
   }
 }
 
-
-// The print_logo functions prints a nice ascii cat
-void print_logo() {
-  Serial.println();
-  Serial.println();
-  Serial.println("      /\\_/\\  ");
-  Serial.println(" IoT (o . o) Maneki-Neko");
-  Serial.println("      > ^ <  ");
-  Serial.println();
-  Serial.println();
-}
-
-// The test_led function tests the connected LEDs on D0 and D1
-void test_led() {
-  // test D0, D1
-  digitalWrite(D0, HIGH);
-  digitalWrite(D1, HIGH);
-  delay(5000); // wait 5 seconds
-  digitalWrite(D0, LOW);
-  digitalWrite(D1, LOW);
-}
-
 // The wave functions starts or stops the waving
 void wave(boolean command) {
   if (command == true) {
@@ -213,6 +191,38 @@ void wave(boolean command) {
   } else {
     digitalWrite(D2, LOW); // off
   }
+}
+
+// The meow function sends a meow
+void meow() {
+  client.publish( ("winkekatze/" +  String(cat_name) + "/status").c_str(), "Meow!");
+}
+
+
+/***************************************************************************************
+ * Let's start 
+ ***************************************************************************************/
+ 
+// The setup function runs once when you press reset or power the board
+void setup() {
+  Serial.begin(115200);
+  delay(1000); // wait 1 seconds
+
+  // Initialize digital pins an output.
+  pinMode(D0, OUTPUT);
+  pinMode(D1, OUTPUT);
+  pinMode(D2, OUTPUT);
+  pinMode(D3, OUTPUT);
+  pinMode(D4, OUTPUT);
+
+  test_led();
+
+  print_logo();
+
+  Serial.print("My name is ");
+  Serial.println(cat_name);
+
+  connect();
 }
 
 // The loop function runs over and over again forever

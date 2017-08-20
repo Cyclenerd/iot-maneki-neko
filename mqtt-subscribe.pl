@@ -10,8 +10,8 @@ my $mqtt = Net::MQTT::Simple->new($mqtt_server);
 # Subscribes to the given topic(s) and registers the callbacks.
 # Note that only the first matching handler will be called for every message, even if filter patterns overlap.
 $mqtt->run(
-	# all winkekatze commands
-	"winkekatze/+/command" => sub {
+	# all winkekatze commands and statuses
+	"winkekatze/+/+" => sub {
 		my ($topic, $message) = @_;
 		print "[$topic] $message\n";
 	},

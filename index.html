@@ -5,14 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IoT Maneki-Neko</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"/>
-<link rel="apple-touch-icon" href="https://www.nkn-it.de/iot-maneki-neko/icon.png"/>
-<link rel="icon" type="image/png" href="https://www.nkn-it.de/iot-maneki-neko/icon.png"/>
-<style>html { text-align: center; }</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+<link rel="apple-touch-icon" href="https://www.nkn-it.de/iot-maneki-neko/icon.png">
+<link rel="icon" type="image/png" href="https://www.nkn-it.de/iot-maneki-neko/icon.png">
+<link rel="preload" href="https://media3.giphy.com/media/sT9nmOROd4dpe/giphy.gif" as="image">
+<style>
+	html { text-align: center; }
+	body { background-size:cover; }
+	span { text-shadow: 2px 2px #fff; }
+</style>
 </head>
 <body>
-<h1 id="cat_name"></h1><br>
-<button id="button" onClick="clickButton();">Connecting ...</button>
+<h1>🐱 <span id="cat_name"></span></h1><br>
+<button id="button" class="button-primary" onClick="clickButton();">Connecting ...</button>
 <script>
 	
 	// Cat Name (CHANGE THIS!!!!11)
@@ -31,7 +36,7 @@
 	var waving = false;
 	
 	// Change title
-	document.getElementById("cat_name").textContent = "🐱 " + cat_name;
+	document.getElementById("cat_name").textContent = cat_name;
 	document.title = "[" + cat_name + "] IoT Maneki-Neko";
 	
 	// Create a new Client object with your broker's hostname, port and your own clientId
@@ -113,8 +118,10 @@
 		console.log("Update button text");
 		if (waving) {
 			document.getElementById("button").textContent = "✖ Stop waving";
+			document.body.style.backgroundImage = "url('https://media3.giphy.com/media/sT9nmOROd4dpe/giphy.gif')";
 		} else {
 			document.getElementById("button").textContent = "▶ Start waving";
+			document.body.style.backgroundImage = "";
 		}
 	}
 	

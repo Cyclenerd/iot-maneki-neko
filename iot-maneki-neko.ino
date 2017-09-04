@@ -44,7 +44,7 @@ PubSubClient client(espClient);
 unsigned long time_msec;
 unsigned long last_report_msec;
 const unsigned int report_every_msec = report_every_min * 60 * 1000; // min to msec
-
+const char* random_client = __DATE__ " " __TIME__;
 
 /***************************************************************************************
  * Helpers 
@@ -142,7 +142,7 @@ void connect() {
   // Loop until we're reconnected
   while (!client.connected()) {
     // Attempt to connect
-    if (client.connect("iot-maneki-neko")) {
+    if (client.connect(random_client)) {
       digitalWrite(D1, HIGH); // LED D1 on
       Serial.println();
       Serial.println("MQTT connected");

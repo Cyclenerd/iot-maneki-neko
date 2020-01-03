@@ -4,7 +4,7 @@ With `iot-maneki-neko.ino` and an **ESP8266** (like the NodeMCU Lua Lolin V3 Mod
 Let's make a thing to an thing with internet or internet of things.
 Inspired by the Chaos Communication Camp Project [Winkekatze](https://events.ccc.de/camp/2015/wiki/Projects:Winkekatze).
 
-![IoT Maneki-Neko](https://www.nkn-it.de/iot-maneki-neko/iot-cat.jpg)
+![IoT Maneki-Neko](img/iot-cat.jpg)
 
 ## Demo
 
@@ -23,11 +23,11 @@ Upload `iot-maneki-neko.ino` to your ESP8266.
 
 Connect `D0` and `D1` each with one LED.
 
-![Pins](https://www.nkn-it.de/iot-maneki-neko/pins.jpg)
+![Pins](img/pins.jpg)
 
 Connect `D2` to the motor (magnet).
 
-![Motor](https://www.nkn-it.de/iot-maneki-neko/motor.jpg)
+![Motor](img/motor.jpg)
 
 ## Remote Control
 

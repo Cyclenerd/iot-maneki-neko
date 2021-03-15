@@ -26,7 +26,7 @@ const char* ssid     = "YOUR-WIFI-SSID";
 const char* password = "YOUR-WIFI-PASSWORD";
 
 // MQTT Server
-// This can stay iot.eclipse.org for the global clowder ;)
+// Public brokers: https://github.com/mqtt/mqtt.github.io/wiki/public_brokers
 const char* mqtt_server            = "iot.eclipse.org";
 const short unsigned int mqtt_port = 1883; // unencrypted
 

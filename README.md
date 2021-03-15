@@ -6,10 +6,6 @@ Inspired by the Chaos Communication Camp Project [Winkekatze](https://events.ccc
 
 ![IoT Maneki-Neko](img/iot-cat.jpg)
 
-## Demo
-
-Control my IoT Maneki-Neko: [🐱 iotkatze](https://www.nkn-it.de/iot-maneki-neko/)
-
 ## Set-Up
 
 You need an ESP8266 and a Maneki-Neko.

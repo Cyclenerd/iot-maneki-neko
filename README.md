@@ -1,5 +1,37 @@
 # IoT Maneki-Neko
 
+---
+
+## Public Archive Notice
+
+This repository has been transitioned to a public archive.
+While development has ceased, the codebase remains available for reference and historical purposes.
+
+**Impact on Current Users:**
+
+* New features and bug fixes will no longer be implemented.
+* Issues and pull requests will not be reviewed or merged.
+
+**Accessing the Codebase:**
+
+* You can continue to clone, fork, and explore the code at your convenience.
+* The codebase reflects the repository's state at the time of archiving.
+
+**Staying Informed:**
+
+* I recommend considering alternative projects that are actively maintained for your ongoing development needs.
+
+**Contributing:**
+
+* While new contributions are no longer accepted in this repository, feel free to explore forking the codebase and creating your own derivative project.
+
+**Thank You:**
+
+I appreciate your past contributions and interest in this project.
+I hope the archived codebase remains a valuable resource!
+
+---
+
 With `iot-maneki-neko.ino` and an **ESP8266** (like the NodeMCU Lua Lolin V3 Module) you can make a Maneki-Neko (Beckoning Cat, Luck Cat, Winkekatze) to an IoT Maneki-Neko.
 Let's make a thing to an thing with internet or internet of things.
 Inspired by the Chaos Communication Camp Project [Winkekatze](https://events.ccc.de/camp/2015/wiki/Projects:Winkekatze).
